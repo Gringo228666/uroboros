@@ -1,0 +1,474 @@
+﻿<!DOCTYPE html>
+<html lang="ru" data-theme="cyber">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>УРОБОРОС — студия веб-дизайна</title>
+<meta name="description" content="Продаём дизайн сайтов: лендинги, многостраничники, дизайн-системы. Выберите стиль — сайт перестроится на ваших глазах.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Chakra+Petch:wght@400;600;700&family=Comic+Neue:wght@400;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&family=Montserrat:wght@400;700;900&family=Unbounded:wght@400;700;900&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Pixelify+Sans:wght@400;500;700&family=Share+Tech+Mono&family=VT323&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg fill='none' stroke='%23d4ff2f' stroke-linecap='round'%3E%3Cpath d='M70.93 23.21A34 34 0 0 1 81.06 63.83' stroke-width='3.4'/%3E%3Cpath d='M81.3 63.28A34 34 0 0 1 44.1 83.48' stroke-width='6.2'/%3E%3Cpath d='M44.68 83.58A34 34 0 0 1 16.08 52.37' stroke-width='9'/%3E%3Cpath d='M16.13 52.96A34 34 0 0 1 39.49 17.66' stroke-width='12'/%3E%3C/g%3E%3Cg transform='translate(60.51 17.66) rotate(18)'%3E%3Cpath fill-rule='evenodd' fill='%23d4ff2f' d='M-13 -8 C-5 -9.4 5 -7 12.5 -3.4 L6 0 L12.5 3.4 C5 7 -5 9.4 -13 8 C-16 4 -16 -4 -13 -8 Z M-3.4 -3.2 a2.1 2.1 0 1 0 0.01 0 Z'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- слой фоновых эффектов темы -->
+<div class="fx-layer" id="fxLayer" aria-hidden="true"></div>
+<div class="fx-scanlines" aria-hidden="true"></div>
+<div class="fx-vignette" aria-hidden="true"></div>
+
+<!-- ШАПКА -->
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a href="#top" class="logo">
+      <span class="logo-mark" aria-hidden="true"><svg class="uro" viewBox="0 0 100 100" aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round"><path d="M70.93 23.21A34 34 0 0 1 81.06 63.83" stroke-width="3.4"/><path d="M81.3 63.28A34 34 0 0 1 44.1 83.48" stroke-width="6.2"/><path d="M44.68 83.58A34 34 0 0 1 16.08 52.37" stroke-width="9"/><path d="M16.13 52.96A34 34 0 0 1 39.49 17.66" stroke-width="12"/><g transform="translate(60.51 17.66) rotate(18)"><path fill-rule="evenodd" fill="currentColor" stroke="none" d="M-13 -8 C-5 -9.4 5 -7 12.5 -3.4 L6 0 L12.5 3.4 C5 7 -5 9.4 -13 8 C-16 4 -16 -4 -13 -8 Z M-3.4 -3.2 a2.1 2.1 0 1 0 0.01 0 Z"/></g></svg></span>
+      <span class="logo-text">УРОБОРОС</span>
+      <span class="logo-sub">меняем кожу, а не суть</span>
+    </a>
+    <nav class="nav" id="nav" aria-label="Основная навигация">
+      <a href="#works">Работы</a>
+      <a href="#services">Услуги</a>
+      <a href="#lab">Лаборатория</a>
+      <a href="#pricing">Цены</a>
+      <a href="#process">Процесс</a>
+      <a href="#faq">Вопросы</a>
+    </nav>
+    <div class="header-right">
+      <span class="sys-clock" id="sysClock">--:--:--</span>
+      <a href="#brief" class="btn btn-primary btn-sm">Обсудить проект</a>
+    </div>
+    <button class="burger" id="burger" aria-label="Меню">≡</button>
+  </div>
+</header>
+
+<!-- ПЕРЕКЛЮЧАТЕЛЬ СТИЛЕЙ -->
+<section class="switcher" id="top">
+  <div class="wrap">
+    <div class="switcher-head">
+      <span class="switcher-label">Выберите стиль — сайт перестроится целиком</span>
+      <span class="switcher-hint">Текст остаётся тем же. Меняется дизайн, ритм и интерактив. Клавиши 1–8.</span>
+    </div>
+    <div class="chips" id="chips" role="tablist">
+      <button class="chip" data-set-theme="cyber" role="tab">
+        <span class="chip-swatch" style="--a:#0b0d0b;--b:#d4ff2f;--c:#3a4a1f"></span>
+        <span class="chip-name">Кибер-брутализм</span>
+        <span class="chip-num">01</span>
+      </button>
+      <button class="chip" data-set-theme="swiss" role="tab">
+        <span class="chip-swatch" style="--a:#efeeea;--b:#e8341c;--c:#111111"></span>
+        <span class="chip-name">Брутализм</span>
+        <span class="chip-num">02</span>
+      </button>
+      <button class="chip" data-set-theme="paper" role="tab">
+        <span class="chip-swatch" style="--a:#f2ece0;--b:#7a2318;--c:#241f1a"></span>
+        <span class="chip-name">Газета</span>
+        <span class="chip-num">03</span>
+      </button>
+      <button class="chip" data-set-theme="matrix" role="tab">
+        <span class="chip-swatch" style="--a:#000000;--b:#00ff41;--c:#0a3f18"></span>
+        <span class="chip-name">Матрица</span>
+        <span class="chip-num">04</span>
+      </button>
+      <button class="chip" data-set-theme="apple" role="tab">
+        <span class="chip-swatch" style="--a:#fbfbfd;--b:#0071e3;--c:#86868b"></span>
+        <span class="chip-name">Минимализм</span>
+        <span class="chip-num">05</span>
+      </button>
+      <button class="chip" data-set-theme="y2k" role="tab">
+        <span class="chip-swatch" style="--a:#12002b;--b:#ff00e6;--c:#5cff5c"></span>
+        <span class="chip-name">Y2K / сцена</span>
+        <span class="chip-num">06</span>
+      </button>
+      <button class="chip" data-set-theme="neo" role="tab">
+        <span class="chip-swatch" style="--a:#fbe6ef;--b:#4a5fd0;--c:#8fd6ff"></span>
+        <span class="chip-name">Neocities</span>
+        <span class="chip-num">07</span>
+      </button>
+      <button class="chip" data-set-theme="custom" role="tab">
+        <span class="chip-swatch" style="--a:#ffffff;--b:#c9c9c9;--c:#6b6b6b"></span>
+        <span class="chip-name">Свой стиль</span>
+        <span class="chip-num">08</span>
+      </button>
+    </div>
+
+    <div class="custom-note">
+      <div class="custom-note-body">
+        <b>Ни один из семи стилей не подошёл?</b>
+        <p>Это нормально: у вашего бизнеса может быть своя интонация. Заполните короткую анкету — обсудим ваши референсы, соберём персональный стиль и покажем два направления первого экрана до начала отрисовки. Анкета ниже, в «Лаборатории», займёт две минуты.</p>
+      </div>
+      <div class="custom-note-actions">
+        <a href="#lab" class="btn btn-primary">Заполнить анкету</a>
+        <a href="#brief" class="btn btn-ghost">Написать напрямую</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track" id="marqueeTrack"></div>
+</div>
+
+<main>
+
+<!-- ГЕРОЙ -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <p class="status-line" id="statusLine"><span class="status-dot"></span><span class="status-text">Очередь: 2 проекта · свободно 3 слота · старт 15 сентября</span></p>
+      <p class="eyebrow" data-c="hero.eyebrow">Студия веб-дизайна · с 2019 года · 140+ проектов</p>
+      <h1 class="hero-title" data-c="hero.title" data-text="Дизайн сайтов, который меняет форму">Дизайн сайтов, который меняет форму</h1>
+      <p class="lead" data-c="hero.lead">Мы продаём готовые дизайн-системы и рисуем индивидуальные проекты под задачу. Наверху — семь фирменных стилей и восьмой, пустой, для персонального. Нажмите любой, и эта страница перестроится: типографика, цвет, ритм, поведение элементов. Ваш сайт мы соберём так же — от первого экрана до передачи в вёрстку.</p>
+      <div class="hero-actions">
+        <a href="#works" class="btn btn-primary">Смотреть работы</a>
+        <a href="#lab" class="btn btn-ghost">Посчитать смету</a>
+      </div>
+      <ul class="stats">
+        <li><b data-c="stats.0.value">140</b><span data-c="stats.0.label">проектов сдано</span></li>
+        <li><b data-c="stats.1.value">7+1</b><span data-c="stats.1.label">стилей на выбор</span></li>
+        <li><b data-c="stats.2.value">12</b><span data-c="stats.2.label">дней средний срок</span></li>
+        <li><b data-c="stats.3.value">96%</b><span data-c="stats.3.label">клиентов возвращаются</span></li>
+      </ul>
+    </div>
+    <div class="hero-visual">
+      <div class="mock">
+        <div class="mock-bar"><i></i><i></i><i></i><span class="mock-url">uroboros.studio</span></div>
+        <div class="mock-body">
+          <div class="mock-hero">
+            <div class="mock-h"></div>
+            <div class="mock-line w80"></div>
+            <div class="mock-line w60"></div>
+            <div class="mock-btn">СМОТРЕТЬ</div>
+          </div>
+          <div class="mock-grid">
+            <div class="mock-cell"></div><div class="mock-cell"></div>
+            <div class="mock-cell"></div><div class="mock-cell"></div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-badge">Текущий стиль: <b id="currentThemeName">Кибер-брутализм</b></div>
+    </div>
+  </div>
+</section>
+
+<!-- УСЛУГИ -->
+<section class="section" id="services">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-num">/01</span>
+      <h2>Что входит в работу</h2>
+      <p class="section-sub">Не набор красивых картинок, а готовый к сборке продукт.</p>
+    </div>
+    <div class="grid grid-3">
+      <article class="card reveal">
+        <div class="card-icon">◧</div>
+        <h3>Дизайн-система</h3>
+        <p>Токены цвета и типографики, сетка, состояния кнопок и полей, готовые компоненты. Разработчик собирает страницы без единого вопроса.</p>
+      </article>
+      <article class="card reveal">
+        <div class="card-icon">▤</div>
+        <h3>Адаптив на 4 ширины</h3>
+        <p>1440, 1024, 768 и 375. Каждый экран отрисован отдельно, а не «сжат». Правила переноса блоков описаны текстом.</p>
+      </article>
+      <article class="card reveal">
+        <div class="card-icon">◈</div>
+        <h3>Кликабельный прототип</h3>
+        <p>Рабочая ссылка в Figma: переходы, ховеры, открытие меню, состояния форм. Можно показать команде и инвестору до вёрстки.</p>
+      </article>
+      <article class="card reveal">
+        <div class="card-icon">✎</div>
+        <h3>Структура и текст</h3>
+        <p>Собираем смыслы: что на первом экране, чем закрываем возражения, где кнопка. Пишем заголовки и микрокопию, а не «Lorem ipsum».</p>
+      </article>
+      <article class="card reveal">
+        <div class="card-icon">◐</div>
+        <h3>Анимация и движение</h3>
+        <p>Спецификация переходов: длительность, кривые, что происходит при скролле и наведении. Прототипы ключевых сцен в видео.</p>
+      </article>
+      <article class="card reveal">
+        <div class="card-icon">⤓</div>
+        <h3>Передача в разработку</h3>
+        <p>Экспорт ассетов, HTML/CSS-кит по договорённости, созвон с вашим фронтендером и авторский надзор до релиза.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- РАБОТЫ -->
+<section class="section section-alt" id="works">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-num">/02</span>
+      <h2>Избранные работы</h2>
+      <p class="section-sub">Шесть проектов из ста сорока. Каждый — со своей задачей и своей формой.</p>
+    </div>
+    <div class="grid grid-3 works">
+      <a class="work reveal" href="#brief">
+        <div class="work-thumb" data-pattern="a"><span class="work-thumb-label" data-c="works.0.name">ГИДРА</span></div>
+        <div class="work-meta"><h3 data-c="works.0.name">ГИДРА</h3><span class="work-tag" data-c="works.0.tag">финтех · дашборд</span></div>
+        <p data-c="works.0.text">Панель управления счетами: 40 экранов, тёмная тема, живые графики.</p>
+      </a>
+      <a class="work reveal" href="#brief">
+        <div class="work-thumb" data-pattern="b"><span class="work-thumb-label" data-c="works.1.name">ВЕЧЕРНИЙ ТИРАЖ</span></div>
+        <div class="work-meta"><h3 data-c="works.1.name">ВЕЧЕРНИЙ ТИРАЖ</h3><span class="work-tag" data-c="works.1.tag">медиа · издание</span></div>
+        <p data-c="works.1.text">Онлайн-газета с бумажной вёрсткой и колонками, читается как печать.</p>
+      </a>
+      <a class="work reveal" href="#brief">
+        <div class="work-thumb" data-pattern="c"><span class="work-thumb-label" data-c="works.2.name">ORACLE</span></div>
+        <div class="work-meta"><h3 data-c="works.2.name">ORACLE</h3><span class="work-tag" data-c="works.2.tag">SaaS · платформа</span></div>
+        <p data-c="works.2.text">Сайт и личный кабинет аналитического сервиса, конверсия выросла в 2,3 раза.</p>
+      </a>
+      <a class="work reveal" href="#brief">
+        <div class="work-thumb" data-pattern="d"><span class="work-thumb-label" data-c="works.3.name">ЛУНА</span></div>
+        <div class="work-meta"><h3 data-c="works.3.name">ЛУНА</h3><span class="work-tag" data-c="works.3.tag">e-commerce · косметика</span></div>
+        <p data-c="works.3.text">Магазин на 600 позиций: каталог, фильтры, быстрый заказ в одно касание.</p>
+      </a>
+      <a class="work reveal" href="#brief">
+        <div class="work-thumb" data-pattern="e"><span class="work-thumb-label" data-c="works.4.name">ARCADE-77</span></div>
+        <div class="work-meta"><h3 data-c="works.4.name">ARCADE-77</h3><span class="work-tag" data-c="works.4.tag">игры · комьюнити</span></div>
+        <p data-c="works.4.text">Портал турниров с профилями игроков, таблицами и трансляциями.</p>
+      </a>
+      <a class="work reveal" href="#brief">
+        <div class="work-thumb" data-pattern="f"><span class="work-thumb-label" data-c="works.5.name">СЕВЕР</span></div>
+        <div class="work-meta"><h3 data-c="works.5.name">СЕВЕР</h3><span class="work-tag" data-c="works.5.tag">архитектура · портфолио</span></div>
+        <p data-c="works.5.text">Портфолио бюро: крупная типографика, тишина вокруг проектов, ноль лишнего.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ЛАБОРАТОРИЯ -->
+<section class="section" id="lab">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-num">/03</span>
+      <h2>Лаборатория</h2>
+      <p class="section-sub">Слева — калькулятор сметы. Справа — интерактив, который живёт только в выбранном стиле. В восьмом, нейтральном стиле там анкета на персональный дизайн.</p>
+    </div>
+    <div class="lab-grid">
+      <div class="calc panel">
+        <h3 class="panel-title">Калькулятор сметы</h3>
+        <div class="field">
+          <label>Тип проекта</label>
+          <div class="seg" id="calcType">
+            <button type="button" class="seg-btn is-active" data-price="40000" data-days="10">Лендинг</button>
+            <button type="button" class="seg-btn" data-price="120000" data-days="22">Многостраничник</button>
+            <button type="button" class="seg-btn" data-price="230000" data-days="40">Веб-приложение</button>
+          </div>
+        </div>
+        <div class="field">
+          <label>Экранов в макете: <b id="pagesOut">6</b></label>
+          <input type="range" id="pagesRange" min="1" max="40" value="6">
+        </div>
+        <div class="field">
+          <label>Дополнительно</label>
+          <div class="opts">
+            <label class="opt"><input type="checkbox" data-price="12000" checked><span>Тексты и структура</span><em>+12 000 ₽</em></label>
+            <label class="opt"><input type="checkbox" data-price="16000"><span>Анимации и переходы</span><em>+16 000 ₽</em></label>
+            <label class="opt"><input type="checkbox" data-price="20000"><span>Дизайн-система</span><em>+20 000 ₽</em></label>
+            <label class="opt"><input type="checkbox" data-price="26000"><span>Вёрстка под ключ</span><em>+26 000 ₽</em></label>
+            <label class="opt"><input type="checkbox" data-mult="1.4" data-fast="1"><span>Срочно, в два раза быстрее</span><em>×1,4</em></label>
+          </div>
+        </div>
+        <div class="calc-out">
+          <span class="calc-out-label">Ориентировочно</span>
+          <b class="calc-out-sum" id="calcSum">0 ₽</b>
+          <span class="calc-out-note" id="calcTerm">срок: 10 рабочих дней</span>
+        </div>
+        <a href="#brief" class="btn btn-primary btn-block">Зафиксировать смету</a>
+      </div>
+
+      <div class="panel widget-panel">
+        <h3 class="panel-title">Интерактив стиля: <span id="widgetThemeName">Кибер-брутализм</span></h3>
+        <div id="themeWidget" class="theme-widget"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ЦЕНЫ -->
+<section class="section section-alt" id="pricing">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-num">/04</span>
+      <h2>Тарифы</h2>
+      <p class="section-sub">Фиксированная цена и фиксированный срок в договоре. Предоплата 30%, остальное при передаче.</p>
+    </div>
+    <div class="grid grid-3">
+      <article class="price reveal">
+        <h3 data-c="pricing.0.name">Лендинг</h3>
+        <div class="price-sum" data-c="pricing.0.sum">40 000 ₽</div>
+        <p class="price-term" data-c="pricing.0.term">7–10 рабочих дней</p>
+        <ul data-c-list="pricing.0.features">
+          <li>Одна страница, 5–7 экранов</li>
+          <li>Прототип и структура</li>
+          <li>Адаптив на 4 ширины</li>
+          <li>Два круга правок</li>
+          <li>Исходники в Figma</li>
+        </ul>
+        <a href="#brief" class="btn btn-ghost btn-block">Выбрать</a>
+      </article>
+      <article class="price is-featured reveal">
+        <span class="price-flag">чаще всего берут</span>
+        <h3 data-c="pricing.1.name">Сайт под ключ</h3>
+        <div class="price-sum" data-c="pricing.1.sum">120 000 ₽</div>
+        <p class="price-term" data-c="pricing.1.term">3–4 недели</p>
+        <ul data-c-list="pricing.1.features">
+          <li>До 8 страниц и внутренние шаблоны</li>
+          <li>Дизайн-система и компоненты</li>
+          <li>Тексты и микрокопия</li>
+          <li>Анимации и спецификация движения</li>
+          <li>Вёрстка и передача в разработку</li>
+        </ul>
+        <a href="#brief" class="btn btn-primary btn-block">Выбрать</a>
+      </article>
+      <article class="price reveal">
+        <h3 data-c="pricing.2.name">Индивидуально</h3>
+        <div class="price-sum" data-c="pricing.2.sum">от 230 000 ₽</div>
+        <p class="price-term" data-c="pricing.2.term">от 6 недель</p>
+        <ul data-c-list="pricing.2.features">
+          <li>Продукт, сервис или личный кабинет</li>
+          <li>Исследование и сценарии</li>
+          <li>UX-проектирование интерфейса</li>
+          <li>Дизайн-система на весь продукт</li>
+          <li>Сопровождение после релиза</li>
+        </ul>
+        <a href="#brief" class="btn btn-ghost btn-block">Обсудить</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ПРОЦЕСС -->
+<section class="section" id="process">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-num">/05</span>
+      <h2>Как идёт работа</h2>
+      <p class="section-sub">Четыре шага. Вы видите результат на каждом, а не в конце.</p>
+    </div>
+    <ol class="steps">
+      <li class="step reveal"><span class="step-num">01</span><h3>Бриф и оценка</h3><p>Двадцать минут разговора и короткая анкета. В тот же день присылаем смету, срок и план по этапам.</p></li>
+      <li class="step reveal"><span class="step-num">02</span><h3>Структура и концепция</h3><p>Собираем прототип и показываем два направления первого экрана. Выбираете одно — дальше работаем только в нём.</p></li>
+      <li class="step reveal"><span class="step-num">03</span><h3>Отрисовка</h3><p>Показываем страницы блоками каждые два-три дня. Правки собираем списком, а не по одной в мессенджере.</p></li>
+      <li class="step reveal"><span class="step-num">04</span><h3>Передача</h3><p>Отдаём исходники, ассеты и документацию, созваниваемся с разработчиком, ведём проект до выхода в прод.</p></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ОТЗЫВ -->
+<section class="section section-alt quote-section">
+  <div class="wrap">
+    <blockquote class="quote reveal">
+      <p>«Мы пришли за лендингом, а получили язык, на котором теперь говорит весь наш продукт. Через месяц после запуска заявок стало вдвое больше — и это при том же трафике».</p>
+      <footer><b>Анна Ковалёва</b><span>директор по маркетингу, ORACLE</span></footer>
+    </blockquote>
+  </div>
+</section>
+
+<!-- БРИФ -->
+<section class="section" id="brief">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-num">/06</span>
+      <h2>Оставить заявку</h2>
+      <p class="section-sub">Отвечаем в течение рабочего дня. Смету присылаем без предоплаты.</p>
+    </div>
+    <form class="form panel" id="briefForm" novalidate>
+      <div class="form-row">
+        <div class="field"><label for="fName">Как вас зовут</label><input id="fName" name="name" type="text" placeholder="Имя" required></div>
+        <div class="field"><label for="fContact">Telegram или почта</label><input id="fContact" name="contact" type="text" placeholder="@nickname / mail@domain.ru" required></div>
+      </div>
+      <div class="form-row">
+        <div class="field"><label for="fStyle">Понравившийся стиль</label>
+          <select id="fStyle" name="style">
+            <option value="cyber">Кибер-брутализм</option>
+            <option value="swiss">Брутализм</option>
+            <option value="paper">Газета</option>
+            <option value="matrix">Матрица</option>
+            <option value="apple">Минимализм</option>
+            <option value="y2k">Y2K / сцена</option>
+            <option value="neo">Neocities</option>
+            <option value="custom">Свой стиль, персональный</option>
+          </select>
+        </div>
+        <div class="field"><label for="fBudget">Бюджет</label>
+          <select id="fBudget" name="budget">
+            <option>до 40 000 ₽</option>
+            <option>40 000 — 120 000 ₽</option>
+            <option>120 000 — 230 000 ₽</option>
+            <option>больше 230 000 ₽</option>
+          </select>
+        </div>
+      </div>
+      <div class="field"><label for="fTask">Задача проекта</label><textarea id="fTask" name="task" rows="4" placeholder="Что за бизнес, кто клиент, что должно случиться на сайте"></textarea></div>
+      <div class="form-foot">
+        <button type="submit" class="btn btn-primary">Отправить бриф</button>
+        <span class="form-note">Нажимая кнопку, вы соглашаетесь на обработку данных.</span>
+      </div>
+      <p class="form-status" id="formStatus" role="status"></p>
+    </form>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section section-alt" id="faq">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-num">/07</span>
+      <h2>Частые вопросы</h2>
+    </div>
+    <div class="faq">
+      <details class="faq-item"><summary>Можно взять готовый стиль с этой страницы?</summary><p>Да. Любой из семи стилей мы адаптируем под ваш контент и логотип: это дешевле и быстрее индивидуальной разработки, потому что сетка и компоненты уже собраны.</p></details>
+      <details class="faq-item"><summary>Что если ни один стиль не подошёл?</summary><p>Тогда берём восьмую плашку «Свой стиль»: она включает нейтральный режим и анкету. По вашим ответам и референсам собираем персональное направление, показываем два варианта первого экрана, вы выбираете одно — дальше работаем только в нём.</p></details>
+      <details class="faq-item"><summary>Вы делаете вёрстку и разработку?</summary><p>Вёрстку — да, отдельной опцией. Бэкенд и интеграции ведёт партнёрский подряд, мы остаёмся на авторском надзоре до релиза.</p></details>
+      <details class="faq-item"><summary>Сколько кругов правок входит в цену?</summary><p>Два на лендинге и три на проекте под ключ. Правки собираем списком после показа блока — так быстрее и дешевле для всех.</p></details>
+      <details class="faq-item"><summary>Как оформляем сделку?</summary><p>Договор с фиксированной ценой и сроком: предоплата 30% на старте, остальные 70% при передаче. Работаем с ИП, ООО и самозанятыми.</p></details>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-grid">
+    <div>
+      <a href="#top" class="logo"><span class="logo-mark" aria-hidden="true"><svg class="uro" viewBox="0 0 100 100" aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round"><path d="M70.93 23.21A34 34 0 0 1 81.06 63.83" stroke-width="3.4"/><path d="M81.3 63.28A34 34 0 0 1 44.1 83.48" stroke-width="6.2"/><path d="M44.68 83.58A34 34 0 0 1 16.08 52.37" stroke-width="9"/><path d="M16.13 52.96A34 34 0 0 1 39.49 17.66" stroke-width="12"/><g transform="translate(60.51 17.66) rotate(18)"><path fill-rule="evenodd" fill="currentColor" stroke="none" d="M-13 -8 C-5 -9.4 5 -7 12.5 -3.4 L6 0 L12.5 3.4 C5 7 -5 9.4 -13 8 C-16 4 -16 -4 -13 -8 Z M-3.4 -3.2 a2.1 2.1 0 1 0 0.01 0 Z"/></g></svg></span><span class="logo-text">УРОБОРОС</span></a>
+      <p class="footer-slogan">Меняем кожу, а не суть.</p>
+      <p class="footer-note">Студия веб-дизайна. Работаем удалённо из Санкт-Петербурга по всему миру.</p>
+    </div>
+    <div>
+      <h4>Разделы</h4>
+      <ul><li><a href="#works">Работы</a></li><li><a href="#services">Услуги</a></li><li><a href="#pricing">Цены</a></li><li><a href="#process">Процесс</a></li></ul>
+    </div>
+    <div>
+      <h4>Связь</h4>
+      <ul><li><a id="cTelegram" href="#brief">Telegram</a></li><li><a id="cEmail" href="#brief">hello@uroboros.studio</a></li><li><a id="cPhone" href="#brief">+7 900 000-00-00</a></li></ul>
+    </div>
+    <div>
+      <h4>Стиль страницы</h4>
+      <ul class="footer-themes" id="footerThemes"></ul>
+    </div>
+  </div>
+  <div class="wrap footer-bottom">
+    <span>© 2026 УРОБОРОС. Все стили сделаны руками.</span>
+    <span id="footerTheme">Стиль: Кибер-брутализм</span>
+  </div>
+</footer>
+
+<button class="to-top" id="toTop" aria-label="Наверх">↑</button>
+
+<script src="content.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+

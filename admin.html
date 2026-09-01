@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>УРОБОРОС — редактор сайта</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg fill='none' stroke='%23d4ff2f' stroke-linecap='round'%3E%3Cpath d='M70.93 23.21A34 34 0 0 1 81.06 63.83' stroke-width='3.4'/%3E%3Cpath d='M81.3 63.28A34 34 0 0 1 44.1 83.48' stroke-width='6.2'/%3E%3Cpath d='M44.68 83.58A34 34 0 0 1 16.08 52.37' stroke-width='9'/%3E%3Cpath d='M16.13 52.96A34 34 0 0 1 39.49 17.66' stroke-width='12'/%3E%3C/g%3E%3Cg transform='translate(60.51 17.66) rotate(18)'%3E%3Cpath fill-rule='evenodd' fill='%23d4ff2f' d='M-13 -8 C-5 -9.4 5 -7 12.5 -3.4 L6 0 L12.5 3.4 C5 7 -5 9.4 -13 8 C-16 4 -16 -4 -13 -8 Z M-3.4 -3.2 a2.1 2.1 0 1 0 0.01 0 Z'/%3E%3C/g%3E%3C/svg%3E">
+<style>
+  * { box-sizing: border-box; }
+  :root {
+    --bg: #0e1010; --panel: #171a19; --panel2: #1e2220; --fg: #e9f2e4; --fg2: #8b9a80;
+    --line: #2b332a; --accent: #d4ff2f; --danger: #ff5a4d; --ok: #35d07f;
+    --mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+  }
+  body { margin: 0; background: var(--bg); color: var(--fg); font: 15px/1.5 system-ui, "Segoe UI", sans-serif; }
+
+  header { position: sticky; top: 0; z-index: 20; display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+    padding: 14px 22px; background: rgba(14,16,16,.94); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: .06em; }
+  .brand svg { width: 30px; height: 30px; color: var(--accent); }
+  .brand small { display: block; font: 11px/1.2 var(--mono); color: var(--fg2); letter-spacing: .14em; text-transform: uppercase; }
+  .head-actions { margin-left: auto; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+  .saved-mark { font: 12px var(--mono); color: var(--fg2); }
+  .saved-mark.is-dirty { color: var(--accent); }
+
+  button, .btn { font: inherit; cursor: pointer; border-radius: 8px; padding: 10px 16px; border: 1px solid var(--line);
+    background: var(--panel2); color: var(--fg); transition: .15s; }
+  button:hover { border-color: var(--accent); }
+  .primary { background: var(--accent); color: #101210; border-color: var(--accent); font-weight: 700; }
+  .primary:hover { filter: brightness(1.08); }
+  .ghost { background: transparent; }
+
+  main { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 460px); gap: 22px; padding: 22px; align-items: start; }
+  @media (max-width: 1000px) { main { grid-template-columns: 1fr; } .preview { position: static !important; } }
+
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 20px 22px; margin-bottom: 18px; }
+  .card > h2 { margin: 0 0 4px; font-size: 1.02rem; letter-spacing: .02em; }
+  .card > p.hint { margin: 0 0 18px; color: var(--fg2); font-size: .85rem; }
+
+  .row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; }
+  label.f { display: block; margin-bottom: 14px; }
+  label.f > span { display: block; font: 11px var(--mono); text-transform: uppercase; letter-spacing: .12em; color: var(--fg2); margin-bottom: 6px; }
+  input[type="text"], input[type="number"], textarea {
+    width: 100%; padding: 10px 12px; background: var(--panel2); color: var(--fg);
+    border: 1px solid var(--line); border-radius: 8px; outline: none; font: inherit;
+  }
+  input:focus, textarea:focus { border-color: var(--accent); }
+  textarea { resize: vertical; min-height: 84px; }
+
+  .switch { display: flex; align-items: center; gap: 12px; padding: 12px 14px; background: var(--panel2);
+    border: 1px solid var(--line); border-radius: 8px; margin-bottom: 16px; cursor: pointer; }
+  .switch input { width: 18px; height: 18px; accent-color: var(--accent); }
+  .switch b { font-weight: 600; }
+  .switch span { color: var(--fg2); font-size: .85rem; }
+
+  .item { border: 1px solid var(--line); border-radius: 10px; padding: 16px; margin-bottom: 12px; background: var(--panel2); }
+  .item h3 { margin: 0 0 12px; font-size: .82rem; font-family: var(--mono); color: var(--accent); letter-spacing: .1em; text-transform: uppercase; }
+  details.item > summary { cursor: pointer; font-family: var(--mono); font-size: .82rem; color: var(--accent); letter-spacing: .08em; text-transform: uppercase; }
+  details.item[open] > summary { margin-bottom: 14px; }
+
+  .preview { position: sticky; top: 84px; }
+  .preview-status { padding: 16px; border: 1px solid var(--accent); border-radius: 10px; background: var(--panel2); font-family: var(--mono); font-size: .82rem; display: flex; gap: 10px; align-items: center; }
+  .preview-status .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--ok); flex: none; }
+  .preview-status.closed { border-color: var(--line); color: var(--fg2); }
+  .preview-status.closed .dot { background: var(--danger); }
+  iframe { width: 100%; height: 560px; border: 1px solid var(--line); border-radius: 10px; background: #fff; margin-top: 14px; }
+
+  .log { margin-top: 14px; padding: 12px 14px; border-radius: 8px; background: var(--panel2); border: 1px solid var(--line);
+    font: 12px/1.5 var(--mono); color: var(--fg2); white-space: pre-wrap; }
+  .log b { color: var(--accent); }
+  code { font-family: var(--mono); font-size: .85em; color: var(--accent); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-linecap="round" aria-hidden="true">
+      <path d="M70.93 23.21A34 34 0 0 1 81.06 63.83" stroke-width="3.4"/>
+      <path d="M81.3 63.28A34 34 0 0 1 44.1 83.48" stroke-width="6.2"/>
+      <path d="M44.68 83.58A34 34 0 0 1 16.08 52.37" stroke-width="9"/>
+      <path d="M16.13 52.96A34 34 0 0 1 39.49 17.66" stroke-width="12"/>
+      <g transform="translate(60.51 17.66) rotate(18)">
+        <path fill-rule="evenodd" fill="currentColor" stroke="none" d="M-13 -8 C-5 -9.4 5 -7 12.5 -3.4 L6 0 L12.5 3.4 C5 7 -5 9.4 -13 8 C-16 4 -16 -4 -13 -8 Z M-3.4 -3.2 a2.1 2.1 0 1 0 0.01 0 Z"/>
+      </g>
+    </svg>
+    <div>УРОБОРОС<small>редактор сайта</small></div>
+  </div>
+  <div class="head-actions">
+    <span class="saved-mark" id="dirty">изменений нет</span>
+    <button class="ghost" id="btnReset">Сбросить</button>
+    <button class="ghost" id="btnCopy">Скопировать код</button>
+    <button class="primary" id="btnSave">Сохранить в content.js</button>
+  </div>
+</header>
+
+<main>
+  <div>
+    <section class="card">
+      <h2>Статус и очередь</h2>
+      <p class="hint">Это видно первой строкой на сайте, в терминале матричного стиля и в панели кибер-стиля.</p>
+      <label class="switch"><input type="checkbox" id="statusOpen"><b>Принимаем заказы</b><span>выключите — на сайте появится строка о паузе</span></label>
+      <div class="row">
+        <label class="f"><span>Проектов в очереди</span><input type="number" id="statusQueue" min="0" max="99"></label>
+        <label class="f"><span>Свободных слотов</span><input type="number" id="statusSlots" min="0" max="99"></label>
+        <label class="f"><span>Ближайший старт</span><input type="text" id="statusNextStart" placeholder="15 сентября"></label>
+      </div>
+      <label class="f"><span>Приписка, когда набор открыт</span><input type="text" id="statusNoteOpen"></label>
+      <label class="f"><span>Текст, когда набор закрыт</span><input type="text" id="statusNoteClosed"></label>
+    </section>
+
+    <section class="card">
+      <h2>Контакты</h2>
+      <p class="hint">Подставляются в подвал сайта и становятся рабочими ссылками.</p>
+      <div class="row">
+        <label class="f"><span>Telegram</span><input type="text" id="cTelegram" placeholder="@nickname"></label>
+        <label class="f"><span>Почта</span><input type="text" id="cEmail"></label>
+        <label class="f"><span>Телефон</span><input type="text" id="cPhone"></label>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Первый экран</h2>
+      <label class="f"><span>Надзаголовок</span><input type="text" id="heroEyebrow"></label>
+      <label class="f"><span>Заголовок</span><input type="text" id="heroTitle"></label>
+      <label class="f"><span>Описание</span><textarea id="heroLead" rows="5"></textarea></label>
+      <h2 style="margin-top:22px">Четыре цифры</h2>
+      <div id="statsBox"></div>
+    </section>
+
+    <section class="card">
+      <h2>Тарифы</h2>
+      <p class="hint">Каждый пункт списка — с новой строки.</p>
+      <div id="pricingBox"></div>
+    </section>
+
+    <section class="card">
+      <h2>Работы</h2>
+      <div id="worksBox"></div>
+    </section>
+
+    <section class="card">
+      <h2>Калькулятор сметы</h2>
+      <p class="hint">Базовые цены, надбавка за экран сверх трёх и размер предоплаты.</p>
+      <div class="row">
+        <label class="f"><span>Лендинг, ₽</span><input type="number" id="calcLanding" step="1000"></label>
+        <label class="f"><span>Многостраничник, ₽</span><input type="number" id="calcMulti" step="1000"></label>
+        <label class="f"><span>Веб-приложение, ₽</span><input type="number" id="calcApp" step="1000"></label>
+        <label class="f"><span>За экран, ₽</span><input type="number" id="calcPerScreen" step="500"></label>
+        <label class="f"><span>Предоплата, %</span><input type="number" id="calcPrepay" min="0" max="100"></label>
+      </div>
+    </section>
+  </div>
+
+  <aside class="preview">
+    <div class="card" style="margin-bottom:14px">
+      <h2>Как это будет на сайте</h2>
+      <p class="hint">Строка статуса обновляется прямо во время правки.</p>
+      <div class="preview-status" id="previewStatus"><span class="dot"></span><span id="previewStatusText">—</span></div>
+      <div class="log" id="log">Файл <b>content.js</b> загружен. Меняйте поля и нажмите «Сохранить в content.js».</div>
+      <button class="ghost" style="margin-top:14px" id="btnOpenSite">Открыть сайт в новой вкладке</button>
+    </div>
+    <div class="card">
+      <h2>Предпросмотр сайта</h2>
+      <p class="hint">Показывает сохранённую версию. После сохранения нажмите «Обновить».</p>
+      <button class="ghost" id="btnReload">Обновить предпросмотр</button>
+      <iframe id="preview" src="index.html" title="Предпросмотр сайта"></iframe>
+    </div>
+  </aside>
+</main>
+
+<script src="content.js"></script>
+<script>
+(function () {
+  "use strict";
+  var $ = function (s) { return document.querySelector(s); };
+  var DEFAULT = JSON.parse(JSON.stringify(window.SITE_CONTENT));
+  var data = JSON.parse(JSON.stringify(window.SITE_CONTENT));
+  var fileHandle = null;
+  var dirty = false;
+
+  /* ---------- сборка повторяющихся блоков ---------- */
+  function buildStats() {
+    var box = $("#statsBox");
+    box.innerHTML = "";
+    data.stats.forEach(function (s, i) {
+      var d = document.createElement("div");
+      d.className = "item";
+      d.innerHTML = '<h3>Цифра ' + (i + 1) + '</h3><div class="row">' +
+        '<label class="f"><span>Значение</span><input type="text" data-p="stats.' + i + '.value"></label>' +
+        '<label class="f"><span>Подпись</span><input type="text" data-p="stats.' + i + '.label"></label></div>';
+      box.appendChild(d);
+    });
+  }
+  function buildPricing() {
+    var box = $("#pricingBox");
+    box.innerHTML = "";
+    data.pricing.forEach(function (p, i) {
+      var d = document.createElement("details");
+      d.className = "item";
+      if (i === 0) d.open = true;
+      d.innerHTML = '<summary>' + (p.name || "тариф " + (i + 1)) + '</summary>' +
+        '<div class="row">' +
+        '<label class="f"><span>Название</span><input type="text" data-p="pricing.' + i + '.name"></label>' +
+        '<label class="f"><span>Цена</span><input type="text" data-p="pricing.' + i + '.sum"></label>' +
+        '<label class="f"><span>Срок</span><input type="text" data-p="pricing.' + i + '.term"></label>' +
+        '</div><label class="f"><span>Что входит, по строке на пункт</span>' +
+        '<textarea rows="5" data-p="pricing.' + i + '.features" data-lines="1"></textarea></label>';
+      box.appendChild(d);
+    });
+  }
+  function buildWorks() {
+    var box = $("#worksBox");
+    box.innerHTML = "";
+    data.works.forEach(function (w, i) {
+      var d = document.createElement("details");
+      d.className = "item";
+      d.innerHTML = '<summary>' + (w.name || "работа " + (i + 1)) + '</summary>' +
+        '<div class="row">' +
+        '<label class="f"><span>Название</span><input type="text" data-p="works.' + i + '.name"></label>' +
+        '<label class="f"><span>Тег</span><input type="text" data-p="works.' + i + '.tag"></label>' +
+        '</div><label class="f"><span>Описание</span><textarea rows="3" data-p="works.' + i + '.text"></textarea></label>';
+      box.appendChild(d);
+    });
+  }
+
+  /* ---------- связывание полей с данными ---------- */
+  var SIMPLE = {
+    statusOpen: "status.open", statusQueue: "status.queue", statusSlots: "status.slots",
+    statusNextStart: "status.nextStart", statusNoteOpen: "status.noteOpen", statusNoteClosed: "status.noteClosed",
+    cTelegram: "contacts.telegram", cEmail: "contacts.email", cPhone: "contacts.phone",
+    heroEyebrow: "hero.eyebrow", heroTitle: "hero.title", heroLead: "hero.lead",
+    calcLanding: "calc.landing", calcMulti: "calc.multi", calcApp: "calc.app",
+    calcPerScreen: "calc.perScreen", calcPrepay: "calc.prepay"
+  };
+  function get(path) { return path.split(".").reduce(function (o, k) { return o == null ? undefined : o[k]; }, data); }
+  function set(path, val) {
+    var keys = path.split("."), last = keys.pop();
+    var obj = keys.reduce(function (o, k) { return o[k]; }, data);
+    obj[last] = val;
+  }
+
+  function fillForm() {
+    Object.keys(SIMPLE).forEach(function (id) {
+      var n = $("#" + id), v = get(SIMPLE[id]);
+      if (!n) return;
+      if (n.type === "checkbox") n.checked = !!v; else n.value = v == null ? "" : v;
+    });
+    document.querySelectorAll("[data-p]").forEach(function (n) {
+      var v = get(n.dataset.p);
+      n.value = Array.isArray(v) ? v.join("\n") : (v == null ? "" : v);
+    });
+    renderStatusPreview();
+  }
+
+  function readField(n) {
+    var path = n.dataset.p || SIMPLE[n.id];
+    if (!path) return;
+    var v;
+    if (n.type === "checkbox") v = n.checked;
+    else if (n.type === "number") v = n.value === "" ? 0 : Number(n.value);
+    else if (n.dataset.lines) v = n.value.split("\n").map(function (s) { return s.trim(); }).filter(Boolean);
+    else v = n.value;
+    set(path, v);
+    markDirty();
+    renderStatusPreview();
+    if (/^(pricing|works)\.\d+\.name$/.test(path)) {
+      var sum = n.closest("details") && n.closest("details").querySelector("summary");
+      if (sum) sum.textContent = v || "без названия";
+    }
+  }
+
+  document.addEventListener("input", function (e) {
+    if (e.target.matches("input, textarea")) readField(e.target);
+  });
+  document.addEventListener("change", function (e) {
+    if (e.target.matches('input[type="checkbox"]')) readField(e.target);
+  });
+
+  function markDirty() {
+    dirty = true;
+    var m = $("#dirty");
+    m.textContent = "есть несохранённые правки";
+    m.classList.add("is-dirty");
+  }
+  function markClean(msg) {
+    dirty = false;
+    var m = $("#dirty");
+    m.textContent = msg || "всё сохранено";
+    m.classList.remove("is-dirty");
+  }
+
+  function plural(n, one, few, many) {
+    n = Number(n) || 0;
+    var n10 = n % 10, n100 = n % 100, w;
+    if (n10 === 1 && n100 !== 11) w = one;
+    else if (n10 >= 2 && n10 <= 4 && (n100 < 10 || n100 >= 20)) w = few;
+    else w = many;
+    return n + " " + w;
+  }
+
+  function renderStatusPreview() {
+    var s = data.status;
+    var box = $("#previewStatus");
+    box.classList.toggle("closed", !s.open);
+    $("#previewStatusText").textContent = s.open
+      ? "Очередь: " + plural(s.queue, "проект", "проекта", "проектов") +
+        " · свободно " + plural(s.slots, "слот", "слота", "слотов") +
+        (s.nextStart ? " · старт " + s.nextStart : "") +
+        (s.noteOpen ? " · " + s.noteOpen : "")
+      : (s.noteClosed || "Запись временно закрыта");
+  }
+
+  /* ---------- сборка файла ---------- */
+  function buildFile() {
+    return "/* ============================================================\n" +
+      "   СОДЕРЖИМОЕ САЙТА. Файл создан редактором admin.html\n" +
+      "   Последнее сохранение: " + new Date().toLocaleString("ru-RU") + "\n" +
+      "   ============================================================ */\n\n" +
+      "window.SITE_CONTENT = " + JSON.stringify(data, null, 2) + ";\n";
+  }
+
+  function log(html) { $("#log").innerHTML = html; }
+
+  async function save() {
+    var text = buildFile();
+
+    // 1) прямая запись в файл (Chrome, Edge, Opera)
+    if (window.showSaveFilePicker) {
+      try {
+        if (!fileHandle) {
+          fileHandle = await window.showSaveFilePicker({
+            suggestedName: "content.js",
+            types: [{ description: "JavaScript", accept: { "text/javascript": [".js"] } }]
+          });
+        }
+        var w = await fileHandle.createWritable();
+        await w.write(text);
+        await w.close();
+        markClean("сохранено в файл");
+        log("Сохранено прямо в <b>content.js</b> в " + new Date().toLocaleTimeString("ru-RU") +
+            ".\nОбновите предпросмотр или страницу сайта, чтобы увидеть правки.");
+        reloadPreview();
+        return;
+      } catch (err) {
+        if (err && err.name === "AbortError") { log("Сохранение отменено."); return; }
+        fileHandle = null; // не получилось — уходим в скачивание
+      }
+    }
+
+    // 2) запасной путь: скачивание файла
+    var blob = new Blob([text], { type: "text/javascript;charset=utf-8" });
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "content.js";
+    a.click();
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 4000);
+    markClean("файл скачан");
+    log("Браузер скачал <b>content.js</b>. Положите его в папку сайта вместо старого — и всё обновится.\n" +
+        "Чтобы сохранять сразу в файл, откройте редактор в Chrome или Edge.");
+  }
+
+  function reloadPreview() {
+    var f = $("#preview");
+    f.src = "index.html?" + Date.now();
+  }
+
+  /* ---------- кнопки ---------- */
+  $("#btnSave").addEventListener("click", save);
+  $("#btnReload").addEventListener("click", reloadPreview);
+  $("#btnOpenSite").addEventListener("click", function () { window.open("index.html", "_blank"); });
+  $("#btnCopy").addEventListener("click", function () {
+    var text = buildFile();
+    navigator.clipboard.writeText(text).then(function () {
+      log("Код скопирован в буфер обмена — можно вставить в <b>content.js</b> вручную.");
+    }, function () {
+      log("Не вышло скопировать. Сохраните файл кнопкой «Сохранить в content.js».");
+    });
+  });
+  $("#btnReset").addEventListener("click", function () {
+    if (!confirm("Вернуть все поля к тому, что записано в файле сейчас?")) return;
+    data = JSON.parse(JSON.stringify(DEFAULT));
+    buildStats(); buildPricing(); buildWorks(); fillForm();
+    markClean("возвращено к сохранённому");
+    log("Поля возвращены к содержимому файла. Ничего не перезаписано.");
+  });
+
+  window.addEventListener("beforeunload", function (e) {
+    if (!dirty) return;
+    e.preventDefault();
+    e.returnValue = "";
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "s") { e.preventDefault(); save(); }
+  });
+
+  /* ---------- старт ---------- */
+  buildStats(); buildPricing(); buildWorks(); fillForm(); markClean("изменений нет");
+  if (!window.showSaveFilePicker) {
+    log("Ваш браузер не умеет писать в файл напрямую — кнопка «Сохранить» скачает <b>content.js</b>,\n" +
+        "его нужно положить в папку сайта вместо старого. В Chrome или Edge сохранение идёт сразу в файл.");
+  }
+})();
+</script>
+</body>
+</html>
