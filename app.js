@@ -646,8 +646,14 @@
     calc();
   }
 
+  // Куда уходят заявки. Сервис FormSubmit пересылает их письмом на этот адрес.
+  // Чтобы сменить почту — поправьте адрес в конце строки и подтвердите его
+  // по письму, которое придёт после первой заявки.
+  var MAIL_ENDPOINT = "https://formsubmit.co/ajax/uroboros.studio.net@gmail.com";
+
   function initForm() {
     var form = $("#briefForm"), status = $("#formStatus");
+    var submitBtn = form.querySelector("button[type=submit]");
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       var ok = true;
@@ -658,9 +664,45 @@
         if (bad) ok = false;
       });
       if (!ok) { status.textContent = "Заполните имя и контакт — иначе не сможем ответить."; return; }
-      status.textContent = "Готово! Бриф отправлен, ответим в течение рабочего дня. Смета: " + $("#calcSum").textContent + ".";
-      form.reset();
-      $("#fStyle").value = current;
+
+      var smeta = $("#calcSum").textContent;
+      var styleSel = $("#fStyle");
+      var payload = {
+        _subject: "Заявка с сайта УРОБОРОС — " + $("#fName").value.trim(),
+        _captcha: "false",
+        _template: "table",
+        "Имя": $("#fName").value.trim(),
+        "Контакт": $("#fContact").value.trim(),
+        "Стиль": styleSel.options[styleSel.selectedIndex].text,
+        "Бюджет": $("#fBudget").value,
+        "Задача проекта": $("#fTask").value.trim(),
+        "Смета из калькулятора": smeta,
+        "Срок из калькулятора": $("#calcTerm").textContent,
+        "Страница": location.href
+      };
+
+      if (submitBtn) submitBtn.disabled = true;
+      status.textContent = "Отправляем…";
+
+      fetch(MAIL_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify(payload)
+      })
+        .then(function (r) { return r.json().catch(function () { return {}; }); })
+        .then(function (data) {
+          if (data && String(data.success) === "true") {
+            status.textContent = "Готово! Бриф отправлен, ответим в течение рабочего дня. Смета: " + smeta + ".";
+            form.reset();
+            styleSel.value = current;
+          } else {
+            status.textContent = "Не удалось отправить. Напишите нам в Telegram или на почту — контакты в подвале.";
+          }
+        })
+        .catch(function () {
+          status.textContent = "Не удалось отправить. Напишите нам в Telegram или на почту — контакты в подвале.";
+        })
+        .then(function () { if (submitBtn) submitBtn.disabled = false; });
     });
     // при смене темы подставляем её же в поле «понравившийся стиль»
     document.addEventListener("themechange", function () { $("#fStyle").value = current; });
